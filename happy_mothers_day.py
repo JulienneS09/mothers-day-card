@@ -1,0 +1,54 @@
+import streamlit as st
+
+# ---- PASSWORD PROTECTION ----
+st.set_page_config(page_title="For Mama 💌", layout="centered")
+
+if "access_granted" not in st.session_state:
+    st.session_state.access_granted = False
+
+if not st.session_state.access_granted:
+    st.title("🌸 Mother's Day Surprise 🌸")
+    pw = st.text_input("Enter the secret password:", type="password")
+    if pw == "christine":
+        st.session_state.access_granted = True
+        st.experimental_rerun()
+    else:
+        st.stop()
+
+# ---- IMAGE SEQUENCE ----
+st.title("💌 For You, Mama")
+
+
+image_urls = [
+    "https://i.imgur.com/MTZv4pb.png",     # Closed envelope
+    "https://i.imgur.com/Wyxtjp1.png",     # Opening envelope
+    "https://i.imgur.com/dOFkFmB.png",     # Blank paper + flower
+    "https://i.imgur.com/z4vkfSp.png"      # Letter part 1
+    # "https://i.imgur.com/letter2.png",     # Letter part 2  need to change it first and the next ones
+    # "https://i.imgur.com/letter3.png",     # Letter part 3
+    # "https://i.imgur.com/letter_final.png" # Final message
+]
+
+captions = [
+    "Click to open your letter 💌",
+    "Just a little more...",
+    "Here's a flower, and something written just for you 🌺",
+    "Line 1...",
+    "Line 2...",
+    "Line 3...",
+    "Love, always. 💖"
+]
+
+# Track progress
+if "step" not in st.session_state:
+    st.session_state.step = 0
+
+current = st.session_state.step
+st.image(image_urls[current], use_column_width=True, caption=captions[current])
+
+# Button to advance
+if current < len(image_urls) - 1:
+    if st.button("👉 Tap to continue"):
+        st.session_state.step += 1
+else:
+    st.success("🎉 That's the end, Mama! Happy Mother's Day! 🌼")
