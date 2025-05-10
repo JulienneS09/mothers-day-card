@@ -44,28 +44,26 @@ captions = [
     "We love you, Mama and Lola!!! 🌺"
 ]
 
-# ---- SESSION STATE TRACKING ----
+# ---- SESSION STATE ----
 if "step" not in st.session_state:
     st.session_state.step = 0
 
 current = st.session_state.step
 
-# Display image
+# ---- IMAGE AND CAPTION ----
 st.image(image_urls[current], use_container_width=True)
-
-# Caption placed closer using HTML
 st.markdown(
     f"<div style='text-align: center; margin-top: -20px; font-size: 18px;'>{captions[current]}</div>",
     unsafe_allow_html=True
 )
 
-# Navigation button
-if current < len(image_urls) - 1:
-    if st.button("👉 Tap to read your letter"):
-        st.session_state.step += 1
-        st.experimental_rerun()
-else:
-    st.success("🎉 That's the end! Happy Mother's Day, Ma! 🌼")
-    if st.button("🔁 Click to start from the beginning"):
-        st.session_state.step = 0
-        st.experimental_rerun()
+# ---- NAVIGATION BUTTONS ----
+col1, col2 = st.columns([1, 2])
+with col1:
+    if current < len(image_urls) - 1:
+        if st.button("👉 Tap to read your letter"):
+            st.session_state.step += 1
+    else:
+        st.success("🎉 That's the end! Happy Mother's Day, Ma! 🌼")
+        if st.button("🔁 Click to start from the beginning"):
+            st.session_state.step = 0
