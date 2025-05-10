@@ -51,12 +51,11 @@ if "step" not in st.session_state:
 current = st.session_state.step
 st.image(image_urls[current], use_container_width=True, caption=captions[current])
 
-# ---- CENTERED BUTTON ----
+# ---- MAIN BUTTONS ----
 if current < len(image_urls) - 1:
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("👉 Tap to read your letter"):
-            st.session_state.step += 1
-            st.experimental_rerun()
+    if st.button("👉 Tap to read your letter"):
+        st.session_state.step += 1
 else:
     st.success("🎉 That's the end! Happy Mother's Day, Ma! 🌼")
+    if st.button("🔁 Click to start from the beginning"):
+        st.session_state.step = 0
