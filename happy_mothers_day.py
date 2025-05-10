@@ -31,7 +31,7 @@ captions = [
     "Here's a flower, and something written just for you",
     "From your eldest badlongon XD",
     "From your eldest badlongon part 2",
-    "From not-so-pretty daughter nyehe",
+    "From the not-so-pretty daughter nyehe",
     "From your prettiest daughter!",
     "Eldest Sopiya",
     "Kuya Yohann",
@@ -44,18 +44,28 @@ captions = [
     "We love you, Mama and Lola!!! 🌺"
 ]
 
-# ---- STEP TRACKER ----
+# ---- SESSION STATE TRACKING ----
 if "step" not in st.session_state:
     st.session_state.step = 0
 
 current = st.session_state.step
-st.image(image_urls[current], use_container_width=True, caption=captions[current])
 
-# ---- MAIN BUTTONS ----
+# Display image
+st.image(image_urls[current], use_container_width=True)
+
+# Caption placed closer using HTML
+st.markdown(
+    f"<div style='text-align: center; margin-top: -20px; font-size: 18px;'>{captions[current]}</div>",
+    unsafe_allow_html=True
+)
+
+# Navigation button
 if current < len(image_urls) - 1:
     if st.button("👉 Tap to read your letter"):
         st.session_state.step += 1
+        st.experimental_rerun()
 else:
     st.success("🎉 That's the end! Happy Mother's Day, Ma! 🌼")
     if st.button("🔁 Click to start from the beginning"):
         st.session_state.step = 0
+        st.experimental_rerun()
