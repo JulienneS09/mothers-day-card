@@ -3,19 +3,6 @@ import streamlit as st
 # ---- PAGE CONFIGURATION ----
 st.set_page_config(page_title="For Mama 💌", layout="centered")
 
-# # ---- PASSWORD PROTECTION ----
-# if "access_granted" not in st.session_state:
-#     st.session_state.access_granted = False
-
-# if not st.session_state.access_granted:
-#     st.title("🌸 Mother's Day Surprise 🌸")
-#     pw = st.text_input("Enter the secret password:", type="password")
-#     if pw == "christine":
-#         st.session_state.access_granted = True
-#         st.experimental_rerun()  # Safe to rerun AFTER setting session state
-#     else:
-#         st.stop()  # Halt the app if password is incorrect
-
 # ---- IMAGE SEQUENCE ----
 st.title("💌 For You, Mama")
 
@@ -36,7 +23,6 @@ image_urls = [
     "https://i.imgur.com/3Coqw0N.png",      # Kyros
     "https://i.imgur.com/z9hulyU.png",      # Karen
     "https://i.imgur.com/MI0vD2Q.png"       # Final
-
 ]
 
 captions = [
@@ -46,7 +32,7 @@ captions = [
     "From your eldest badlongon XD",
     "From your eldest badlongon part 2",
     "From not-so-pretty daughter nyehe",
-    "From you prettiest daughter!",
+    "From your prettiest daughter!",
     "Eldest Sopiya",
     "Kuya Yohann",
     "Ate Trixia",
@@ -58,17 +44,19 @@ captions = [
     "We love you, Mama and Lola!!! 🌺"
 ]
 
-# Track current step
+# ---- STEP TRACKER ----
 if "step" not in st.session_state:
     st.session_state.step = 0
 
 current = st.session_state.step
-st.image(image_urls[current], use_column_width=True, caption=captions[current])
+st.image(image_urls[current], use_container_width=True, caption=captions[current])
 
-# Advance button
+# ---- CENTERED BUTTON ----
 if current < len(image_urls) - 1:
-    if st.button("👉 Tap to read your letter"):
-        st.session_state.step += 1
-        st.experimental_rerun()
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("👉 Tap to read your letter"):
+            st.session_state.step += 1
+            st.experimental_rerun()
 else:
     st.success("🎉 That's the end! Happy Mother's Day, Ma! 🌼")
