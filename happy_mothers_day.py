@@ -3,6 +3,19 @@ import streamlit as st
 # ---- PAGE CONFIGURATION ----
 st.set_page_config(page_title="For Mama 💌", layout="centered")
 
+# # ---- PASSWORD PROTECTION ----
+# if "access_granted" not in st.session_state:
+#     st.session_state.access_granted = False
+
+# if not st.session_state.access_granted:
+#     st.title("🌸 Mother's Day Surprise 🌸")
+#     pw = st.text_input("Enter the secret password:", type="password")
+#     if pw == "christine":
+#         st.session_state.access_granted = True
+#         st.experimental_rerun()  # Safe to rerun AFTER setting session state
+#     else:
+#         st.stop()  # Halt the app if password is incorrect
+
 # ---- IMAGE SEQUENCE ----
 st.title("💌 For You, Mama")
 
@@ -23,15 +36,17 @@ image_urls = [
     "https://i.imgur.com/3Coqw0N.png",      # Kyros
     "https://i.imgur.com/z9hulyU.png",      # Karen
     "https://i.imgur.com/MI0vD2Q.png"       # Final
+
 ]
 
 captions = [
+    "To CC",
     "Just a little more...",
     "Here's a flower, and something written just for you",
     "From your eldest badlongon XD",
     "From your eldest badlongon part 2",
     "From not-so-pretty daughter nyehe",
-    "From your prettiest daughter!",
+    "From you prettiest daughter!",
     "Eldest Sopiya",
     "Kuya Yohann",
     "Ate Trixia",
@@ -43,32 +58,17 @@ captions = [
     "We love you, Mama and Lola!!! 🌺"
 ]
 
-# ---- STEP TRACKER ----
+# Track current step
 if "step" not in st.session_state:
     st.session_state.step = 0
 
 current = st.session_state.step
+st.image(image_urls[current], use_column_width=True, caption=captions[current])
 
-# ---- DISPLAY IMAGE AS A CLICKABLE ELEMENT ----
-st.markdown(
-    f"""
-    <a href="?step={current + 1}">
-        <img src="{image_urls[current]}" style="width:100%; border-radius:15px;" alt="letter image"/>
-    </a>
-    <p style="text-align:center;"><em>{captions[current]}</em></p>
-    """,
-    unsafe_allow_html=True
-)
-
-# ---- HANDLE STEP INCREMENT FROM URL PARAM ----
-query_params = st.experimental_get_query_params()
-if "step" in query_params:
-    next_step = int(query_params["step"][0])
-    if next_step < len(image_urls):
-        st.session_state.step = next_step
-        st.experimental_set_query_params()  # clear URL
+# Advance button
+if current < len(image_urls) - 1:
+    if st.button("👉 Tap to read your letter"):
+        st.session_state.step += 1
         st.experimental_rerun()
-
-# ---- FINAL MESSAGE ----
-if current == len(image_urls) - 1:
+else:
     st.success("🎉 That's the end! Happy Mother's Day, Ma! 🌼")
