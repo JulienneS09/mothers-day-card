@@ -1,9 +1,7 @@
 import streamlit as st
 
-# ---- PAGE CONFIGURATION ----
 st.set_page_config(page_title="For Mama 💌", layout="centered")
 
-# ---- IMAGE SEQUENCE ----
 st.title("💌 For You, Mama")
 
 image_urls = [
@@ -41,23 +39,20 @@ captions = [
     "Kuya Kane",
     "Kyros",
     "Karen",
-    "We love you, Mama and Lola!!! 🌺"
-]
+    "We love you, Mama and Lola!!! 🌺"]
 
-# ---- SESSION STATE ----
 if "step" not in st.session_state:
     st.session_state.step = 0
 
 current = st.session_state.step
 
-# ---- IMAGE AND CAPTION ----
 st.image(image_urls[current], use_container_width=True)
 st.markdown(
     f"<div style='text-align: center; margin-top: -20px; font-size: 18px;'>{captions[current]}</div>",
     unsafe_allow_html=True
 )
 
-# ---- NAVIGATION BUTTONS ----
+
 col1, col2 = st.columns([1, 2])
 with col1:
     if current < len(image_urls) - 1:
